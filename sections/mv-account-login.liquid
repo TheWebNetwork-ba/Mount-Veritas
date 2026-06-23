@@ -1,0 +1,47 @@
+<div class="mv-al">
+  <div class="mv-al-box">
+    <p class="mv-al-eyebrow">Mount Veritas</p>
+    <h1 class="mv-al-title">Sign in</h1>
+
+    {% form 'customer_login' %}
+      {% if form.errors %}
+        <p class="mv-al-err">Incorrect email or password — try again.</p>
+      {% endif %}
+      <input type="hidden" name="return_to" value="/pages/my-account">
+
+      <label class="mv-al-label" for="AlEmail">Email</label>
+      <input class="mv-al-input" type="email" name="customer[email]" id="AlEmail" autocomplete="email" required>
+
+      <label class="mv-al-label" for="AlPassword">Password</label>
+      <input class="mv-al-input" type="password" name="customer[password]" id="AlPassword" autocomplete="current-password" required>
+
+      <button class="mv-al-btn" type="submit">Sign in</button>
+    {% endform %}
+
+    <div class="mv-al-links">
+      <a href="/pages/account-register">Don't have an account? Create one</a>
+      <a href="{{ routes.account_recover_url }}">Forgot password?</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.mv-al{ min-height:100svh; background:#0d0d0b; display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; }
+.mv-al-box{ width:100%; max-width:420px; background:#111110; border:1px solid rgba(236,233,226,.12); border-radius:6px; padding:40px 32px; }
+.mv-al-eyebrow{ font-family:'Fira Sans Condensed',sans-serif; font-size:11px; letter-spacing:.4em; text-transform:uppercase; color:#ffb800; margin:0 0 12px; text-align:center; }
+.mv-al-title{ font-family:'Abril Fatface',serif; font-weight:400; color:#ECE9E2; font-size:32px; margin:0 0 28px; text-align:center; }
+.mv-al-label{ display:block; font-family:'Fira Sans Condensed',sans-serif; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#9b988f; margin:0 0 6px; }
+.mv-al-input{ width:100%; box-sizing:border-box; background:#0f0f0d; border:1px solid #3a392f; border-radius:6px; padding:13px 15px; color:#ECE9E2; font-family:'Fira Sans Condensed',sans-serif; font-size:15px; margin-bottom:16px; }
+.mv-al-input::placeholder{ color:#6f6c64; }
+.mv-al-input:focus{ outline:none; border-color:#ECE9E2; }
+.mv-al-btn{ width:100%; background:#ECE9E2; color:#0d0d0b; border:none; border-radius:6px; padding:14px; font-family:'Fira Sans Condensed',sans-serif; font-weight:700; font-size:14px; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; margin-top:4px; transition:background .2s; }
+.mv-al-btn:hover{ background:#fff; }
+.mv-al-err{ font-family:'Fira Sans Condensed',sans-serif; color:#d98a8a; font-size:13px; text-align:center; margin:0 0 16px; background:rgba(217,138,138,.08); border:1px solid rgba(217,138,138,.2); border-radius:6px; padding:10px; }
+.mv-al-links{ display:flex; flex-direction:column; gap:10px; margin-top:22px; text-align:center; }
+.mv-al-links a{ font-family:'Fira Sans Condensed',sans-serif; color:#9b988f; font-size:13px; text-decoration:underline; }
+.mv-al-links a:hover{ color:#ECE9E2; }
+</style>
+
+{% schema %}
+{ "name": "Account login", "presets": [{ "name": "Account login" }] }
+{% endschema %}
