@@ -138,18 +138,18 @@
   <script>
   window.MV_CART = {
     ea: {
-      variantId: {{ settings.cart_ea_product.variants.first.id | default: 0 }},
+      variantId: {{ settings.cart_ea_product.selected_or_first_available_variant.id | default: 0 }},
       productId: {{ settings.cart_ea_product.id | default: 0 }},
       title: {{ settings.cart_ea_product.title | default: "" | json }},
-      price: {{ settings.cart_ea_product.price | default: 0 }},
+      price: {{ settings.cart_ea_product.selected_or_first_available_variant.price | default: 0 }},
       image: {{ settings.cart_ea_product.featured_image | image_url: width: 120 | default: "" | json }},
       label: {{ settings.cart_ea_label | default: "Exclusive add-on" | json }}
     },
     pp: {
-      variantId: {{ settings.cart_pp_product.variants.first.id | default: 0 }},
+      variantId: {{ settings.cart_pp_product.selected_or_first_available_variant.id | default: 0 }},
       productId: {{ settings.cart_pp_product.id | default: 0 }},
       title: {{ settings.cart_pp_product.title | default: "" | json }},
-      price: {{ settings.cart_pp_product.price | default: 0 }}
+      price: {{ settings.cart_pp_product.selected_or_first_available_variant.price | default: 0 }}
     }
   };
   </script>
