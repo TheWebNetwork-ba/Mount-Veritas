@@ -87,6 +87,7 @@
 
 /* ===== SIDE CART (drawer) ===== */
 (function(){
+  console.log('[MV CART CONFIG]', JSON.stringify(window.MV_CART));
   var drawer  = document.getElementById('cartDrawer');
   var overlay = document.getElementById('cartOverlay');
   var toggle  = document.getElementById('cartToggle');
