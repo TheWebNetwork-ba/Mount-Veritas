@@ -427,9 +427,9 @@ function mvCuAdd(btn){
 
 /* ===== CART DISCOUNT CODE ===== */
 (function(){
-  var input   = document.getElementById('cartDiscountInput');
-  var btn     = document.getElementById('cartDiscountApply');
-  var msg     = document.getElementById('cartDiscountMsg');
+  var input    = document.getElementById('cartDiscountInput');
+  var btn      = document.getElementById('cartDiscountApply');
+  var msg      = document.getElementById('cartDiscountMsg');
   var checkout = document.getElementById('cartCheckoutBtn');
 
   if (!input || !btn) return;
@@ -440,46 +440,34 @@ function mvCuAdd(btn){
     msg.style.display = 'block';
   }
 
-  btn.addEventListener('click', function(){
-    var code = input.value.trim();
+  function applyCode(){
+    var code = input.value.trim().toUpperCase();
     if (!code) return;
+
+    // Point checkout button through Shopify's native discount redemption URL
+    // /discount/{code}?redirect=/checkout sets the discount cookie then goes to checkout
+    if (checkout) {
+      checkout.setAttribute('href', '/discount/' + encodeURIComponent(code) + '?redirect=%2Fcheckout');
+    }
+
+    showMsg('✓ Code applied — click Checkout to redeem.', true);
+    btn.textContent = 'Applied';
     btn.disabled = true;
-    btn.textContent = '...';
+    input.readOnly = true;
+    input.style.opacity = '.6';
+  }
 
-    // Apply discount by updating the checkout URL with the code
-    fetch('/discount/' + encodeURIComponent(code), {
-      method: 'GET',
-      redirect: 'follow'
-    })
-    .then(function(r){
-      if (r.ok || r.redirected) {
-        showMsg('Code applied — discount will reflect at checkout.', true);
-        // Append discount to checkout URL
-        if (checkout) {
-          var url = checkout.getAttribute('href').split('?')[0];
-          checkout.setAttribute('href', url + '?discount=' + encodeURIComponent(code));
-        }
-        input.value = '';
-      } else {
-        showMsg('Invalid or expired code — try again.', false);
-      }
-    })
-    .catch(function(){
-      // Network error — still pass code to checkout URL
-      showMsg('Code saved — discount will apply at checkout.', true);
-      if (checkout) {
-        var url = checkout.getAttribute('href').split('?')[0];
-        checkout.setAttribute('href', url + '?discount=' + encodeURIComponent(code));
-      }
-    })
-    .finally(function(){
-      btn.disabled = false;
-      btn.textContent = 'Apply';
-    });
-  });
+  btn.addEventListener('click', applyCode);
+  input.addEventListener('keydown', function(e){ if (e.key === 'Enter') applyCode(); });
 
-  // Apply on Enter key
-  input.addEventListener('keydown', function(e){
-    if (e.key === 'Enter') btn.click();
+  // Reset if user edits the input after applying
+  input.addEventListener('input', function(){
+    if (!input.readOnly) return;
+    input.readOnly = false;
+    input.style.opacity = '1';
+    btn.textContent = 'Apply';
+    btn.disabled = false;
+    msg.style.display = 'none';
+    if (checkout) checkout.setAttribute('href', '/checkout');
   });
 })();
