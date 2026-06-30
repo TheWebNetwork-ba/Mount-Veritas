@@ -16,7 +16,7 @@
           "type": "panel",
           "settings": {
             "heading": "Details",
-            "use_description": true,
+            "use_description": false,
             "content": "<ul><li>80% COTTON / 20% POLYESTER FLEECE</li><li>380 GSM</li></ul>"
           }
         },
